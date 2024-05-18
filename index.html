@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing and Welcome Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #cadbe6;
+        }
+        .img {
+            margin: 5;
+            padding: 30;
+            height: 50px;
+            width: 50%;
+        }
+        .rolling-text {
+            width: 100%;
+            height: 150px;
+            background-color: #0e577b;
+            color: #ffffff;
+            text-align: center;
+            line-height: 70px;
+            overflow: hidden;
+            font-size: 50px;
+        }
+        .rolling-text span {
+            display: inline-block;
+            padding-left: 50%;
+            animation: rolling 10s linear infinite;
+        }
+        @keyframes rolling {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+            display:flex;
+            padding:10px;
+        }
+        .buttons button {
+            padding: 50px 50px;
+            display:grid;
+            margin: 10px;
+            font-size: 35px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 50px 50px;
+            font-size: 20px;
+            overflow: hidden;
+            background-color: #333;
+            text-align: left;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: inline;
+            color: white;
+            text-align: center;
+            padding: 30px 30px;
+            text-decoration: none;
+        }
+        li a:hover {
+            background-color: #111;
+        }
+    </style>
+    <script>
+        function openStreamlitApp() {
+            window.open("http://localhost:8501", "_blank");
+        }
+        function openGovtPage() {
+            window.location.href = 'govt_access.html';
+        }
+    </script>
+</head>
+<body>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="rolling-text">
+        <span>Smart City Traffic Management</span>
+    </div>
+    <div class="buttons">
+        <a href="trnoaccess.html">
+            <button>User</button>
+        </a>
+        <button id="govt" onclick="openGovtPage()">Govt Access</button>
+    </div>
+
+    <!-- Input Images Button -->
+    <button id="inputImagesButton">Select Images</button>
+
+    <!-- Hidden File Input -->
+    <input type="file" id="fileInput" multiple>
+
+    <!-- Process Images Button -->
+    <button onclick="processImages()">Process Images</button>
+
+    <!-- Output Div -->
+    <div id="output"></div>
+
+    <script>
+        // Get the input images button and file input elements
+        var inputImagesButton = document.getElementById('inputImagesButton');
+        var fileInput = document.getElementById('fileInput');
+
+        // Add a click event listener to the input images button
+        inputImagesButton.addEventListener('click', function() {
+            // Trigger the file input dialog when the button is clicked
+            fileInput.click();
+        });
+
+        // Function to process the selected images
+        function processImages() {
+            const files = fileInput.files;
+            const formData = new FormData();
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append(`file_${i}`, files[i]);
+            }
+
+            fetch('/process', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('output').innerText = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
