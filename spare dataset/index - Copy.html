@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Input Images Button -->
+    <button id="inputImagesButton">Select Images</button>
+
+    <!-- Hidden File Input -->
+    <input type="file" id="fileInput" multiple>
+
+    <!-- Process Images Button -->
+    <button onclick="processImages()">Process Images</button>
+
+    <!-- Output Div -->
+    <div id="output"></div>
+
+    <script>
+        // Get the input images button and file input elements
+        var inputImagesButton = document.getElementById('inputImagesButton');
+        var fileInput = document.getElementById('fileInput');
+
+        // Add a click event listener to the input images button
+        inputImagesButton.addEventListener('click', function() {
+            // Trigger the file input dialog when the button is clicked
+            fileInput.click();
+        });
+
+        // Function to process the selected images
+        function processImages() {
+            const files = fileInput.files;
+            const formData = new FormData();
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append(`file_${i}`, files[i]);
+            }
+
+            fetch('/process', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('output').innerText = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eceed9;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 150px;
+            
+        }
+        .buttons button {
+            padding: 20px 50px;
+            margin: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        #app-button {
+            background-color: green;
+            color: white;
+            padding:50px;
+
+        
+        }
+        #tr-html-button {
+            background-color: red;
+            color: white;
+            padding:50px;
+        }
+        .res{
+            background-color: black;
+            color:White;
+            text-align:center;
+            padding:30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="res">
+        <h1>Restricted Access</h1>
+    </div>
+    <div class="buttons">
+        <button id="app-button" onclick="openAppPy()">Traffic Tracker</button>
+        <button id="tr-html-button" onclick="openTrHtml()">Traffic Database</button>
+    </div>
+    <script>
+        function openAppPy() {
+            window.open('http://localhost:8501', '_blank'); // Update with your Streamlit app URL
+        }
+        function openTrHtml() {
+            window.open('C:/Users/abhishek/Desktop/SYMBIOT/html/tr.html', '_blank'); // This will work only in a local context or needs to be served through a local server
+        }
+    </script>
+</body>
+</html>
